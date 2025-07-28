@@ -1,0 +1,110 @@
+{
+  "EMP001": {
+    "name": "John Doe",
+    "email": "john.doe@company.com",
+    "game1": 10,
+    "game2": 0,
+    "game3": 10,
+    "game4": 0,
+    "game5": 0,
+    "total": 20,
+    "gift_type": "Participation",
+    "last_updated": "2025-07-28T15:52:29.224885"
+  },
+  "EMP002": {
+    "name": "Jane Smith",
+    "email": "jane.smith@company.com",
+    "game1": 10,
+    "game2": 9,
+    "game3": 10,
+    "game4": 3,
+    "game5": 9,
+    "total": 41,
+    "gift_type": "Gold",
+    "last_updated": "2025-07-28T16:11:43.067898"
+  },
+  "EMP003": {
+    "name": "Mike Johnson",
+    "email": "mike.johnson@company.com",
+    "game1": 3,
+    "game2": 4,
+    "game3": 4,
+    "game4": 8,
+    "game5": 9,
+    "total": 28,
+    "gift_type": "Participation",
+    "last_updated": "2025-07-28T16:11:51.508433"
+  },
+  "EMP004": {
+    "name": "Sarah Wilson",
+    "email": "sarah.wilson@company.com",
+    "game1": 4,
+    "game2": 7,
+    "game3": 5,
+    "game4": 10,
+    "game5": 8,
+    "total": 34,
+    "gift_type": "Silver",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  },
+  "EMP005": {
+    "name": "David Brown",
+    "email": "david.brown@company.com",
+    "game1": 5,
+    "game2": 10,
+    "game3": 6,
+    "game4": 2,
+    "game5": 7,
+    "total": 30,
+    "gift_type": "Silver",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  },
+  "EMP006": {
+    "name": "Lisa Davis",
+    "email": "lisa.davis@company.com",
+    "game1": 4,
+    "game2": 2,
+    "game3": 4,
+    "game4": 4,
+    "game5": 3,
+    "total": 17,
+    "gift_type": "Participation",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  },
+  "EMP007": {
+    "name": "Tom Miller",
+    "email": "tom.miller@company.com",
+    "game1": 5,
+    "game2": 3,
+    "game3": 7,
+    "game4": 10,
+    "game5": 3,
+    "total": 28,
+    "gift_type": "Participation",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  },
+  "EMP008": {
+    "name": "Anna Garcia",
+    "email": "anna.garcia@company.com",
+    "game1": 3,
+    "game2": 4,
+    "game3": 9,
+    "game4": 3,
+    "game5": 4,
+    "total": 23,
+    "gift_type": "Participation",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  },
+  "2322594": {
+    "name": "Arjun",
+    "email": "2322594@cognizant.com",
+    "game1": 10,
+    "game2": 8,
+    "game3": 4,
+    "game4": 2,
+    "game5": 7,
+    "total": 31,
+    "gift_type": "Silver",
+    "last_updated": "2025-07-28T15:42:10.761667"
+  }
+}

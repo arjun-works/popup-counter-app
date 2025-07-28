@@ -1,0 +1,25 @@
+{
+  "entries": [
+    {
+      "timestamp": "2025-07-28T16:11:43.069904",
+      "game_number": 1,
+      "operator": "game1_op",
+      "participant_emp_id": "EMP002",
+      "participant_name": "Jane Smith",
+      "new_score": 10,
+      "old_score": 10,
+      "action": "update"
+    },
+    {
+      "timestamp": "2025-07-28T16:11:51.514936",
+      "game_number": 1,
+      "operator": "game1_op",
+      "participant_emp_id": "EMP003",
+      "participant_name": "Mike Johnson",
+      "new_score": 3,
+      "old_score": 3,
+      "action": "update"
+    }
+  ],
+  "created": "2025-07-28T15:00:00Z"
+}

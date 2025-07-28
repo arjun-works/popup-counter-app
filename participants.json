@@ -1,0 +1,47 @@
+{
+  "EMP001": {
+    "name": "John Doe",
+    "email": "john.doe@company.com",
+    "registration_date": "2025-07-23T15:42:10.758378"
+  },
+  "EMP002": {
+    "name": "Jane Smith",
+    "email": "jane.smith@company.com",
+    "registration_date": "2025-07-24T15:42:10.758378"
+  },
+  "EMP003": {
+    "name": "Mike Johnson",
+    "email": "mike.johnson@company.com",
+    "registration_date": "2025-07-25T15:42:10.758378"
+  },
+  "EMP004": {
+    "name": "Sarah Wilson",
+    "email": "sarah.wilson@company.com",
+    "registration_date": "2025-07-26T15:42:10.758378"
+  },
+  "EMP005": {
+    "name": "David Brown",
+    "email": "david.brown@company.com",
+    "registration_date": "2025-07-27T15:42:10.758378"
+  },
+  "EMP006": {
+    "name": "Lisa Davis",
+    "email": "lisa.davis@company.com",
+    "registration_date": "2025-07-28T15:42:10.758378"
+  },
+  "EMP007": {
+    "name": "Tom Miller",
+    "email": "tom.miller@company.com",
+    "registration_date": "2025-07-28T15:42:10.758378"
+  },
+  "EMP008": {
+    "name": "Anna Garcia",
+    "email": "anna.garcia@company.com",
+    "registration_date": "2025-07-28T15:42:10.758378"
+  },
+  "2322594": {
+    "name": "Arjun",
+    "email": "2322594@cognizant.com",
+    "registration_date": "2025-07-21T15:42:10.758378"
+  }
+}
