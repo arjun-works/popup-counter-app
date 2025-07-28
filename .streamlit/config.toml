@@ -20,7 +20,3 @@ gatherUsageStats = false
 
 [ui]
 hideTopBar = false
-
-[runner]
-magicEnabled = false
-installTracer = false
