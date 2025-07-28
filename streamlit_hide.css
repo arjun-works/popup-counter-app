@@ -1,0 +1,53 @@
+/* Hide Streamlit branding elements */
+.stDeployButton {
+    display: none !important;
+}
+.stActionButton {
+    display: none !important;
+}
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+.stAppViewMain > .main .block-container {
+    padding-top: 1rem !important;
+}
+/* Hide the hamburger menu */
+.stMainMenu {
+    display: none !important;
+}
+/* Hide the GitHub icon */
+.stActionButton[data-testid="stActionButton"] {
+    display: none !important;
+}
+/* Hide fork button */
+.stButton[data-testid="stButton"] {
+    display: none !important;
+}
+/* Additional hiding rules for deployment icons */
+.stAppViewContainer > .main .block-container {
+    padding-top: 1rem !important;
+}
+/* Hide top header completely */
+.stApp > header {
+    display: none !important;
+}
+/* Hide Streamlit menu button */
+.css-1dp5vir {
+    display: none !important;
+}
+/* Hide deploy button */
+.css-1rs6os {
+    display: none !important;
+}
+/* Hide GitHub button */
+.css-1kyxreq {
+    display: none !important;
+}
+/* Hide toolbar */
+.css-14xtw13 {
+    display: none !important;
+}
+/* Hide main menu */
+.css-vk3wp9 {
+    display: none !important;
+}
