@@ -1,15 +1,10 @@
 [browser]
 gatherUsageStats = false
-showErrorDetails = false
 
 [server]
 headless = true
 enableCORS = false
 enableXsrfProtection = false
-
-[ui]
-hideTopBar = true
-hideSidebarNav = true
 
 [theme]
 primaryColor = "#1f77b4"
