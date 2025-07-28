@@ -337,16 +337,169 @@ st.markdown("""
         display: none !important;
     }
     
-    /* Hide any element with small text that might be branding */
-    div[style*="opacity: 0.6"]:has(a[href*="streamlit"]) {
+    /* BOTTOM OVERLAY BRANDING - NUCLEAR REMOVAL */
+    
+    /* Hide all possible bottom branding containers */
+    div[style*="position: fixed"][style*="bottom"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    div[style*="position: absolute"][style*="bottom"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Target any element with high z-index at bottom */
+    div[style*="z-index"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    /* Hide elements with common bottom positioning values */
+    div[style*="bottom: 0"] {
+        display: none !important;
+    }
+    
+    div[style*="bottom: 10px"] {
+        display: none !important;
+    }
+    
+    div[style*="bottom: 20px"] {
+        display: none !important;
+    }
+    
+    /* Target bottom-right corner elements */
+    div[style*="right: 0"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    div[style*="right: 10px"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    div[style*="right: 20px"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    /* Hide any element with bottom positioning and external links */
+    div[style*="bottom"]:has(a[target="_blank"]) {
+        display: none !important;
+    }
+    
+    /* Target viewer badge with any positioning */
+    [class*="viewerBadge"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+    
+    /* Hide any bottom overlay with small text */
+    div[style*="font-size: 12px"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    div[style*="font-size: 0.75rem"][style*="bottom"] {
+        display: none !important;
+    }
+    
+    /* Hide floating elements with GitHub/Streamlit links */
+    div:has(a[href*="streamlit"]) {
+        display: none !important;
+    }
+    
+    div:has(a[href*="github"]) {
+        display: none !important;
+    }
+    
+    /* Target any overlay div that contains branding text */
+    div:has(*:contains("Hosted with")) {
+        display: none !important;
+    }
+    
+    div:has(*:contains("Made with")) {
+        display: none !important;
+    }
+    
+    /* Hide any element with opacity that might be bottom branding */
+    div[style*="opacity: 0.6"]:has(a) {
+        display: none !important;
+    }
+    
+    div[style*="opacity: 0.7"]:has(a) {
+        display: none !important;
+    }
+    
+    div[style*="opacity: 0.8"]:has(a) {
+        display: none !important;
+    }
+    
+    /* ULTIMATE BOTTOM BRANDING KILLER */
+    body > div:last-child:has(a[href*="streamlit"]) {
+        display: none !important;
+    }
+    
+    body > div:last-child:has(a[href*="github"]) {
+        display: none !important;
+    }
+    
+    /* Remove any persistent bottom elements */
+    .stApp > div:last-child:has(a[target="_blank"]) {
+        display: none !important;
+    }
+    
+    /* Target common Streamlit footer class patterns */
+    div[class*="st-emotion-cache"]:has(a[href*="streamlit"]) {
+        display: none !important;
+    }
+    
+    /* Hide any small centered bottom elements */
+    div[style*="text-align: center"][style*="position"]:has(a) {
         display: none !important;
     }
 </style>
 
 <script>
-// SURGICAL OVERLAY BRANDING REMOVAL - Preserve main content
-function removeOverlayBranding() {
-    console.log('Removing overlay branding while preserving content...');
+// BOTTOM OVERLAY BRANDING NUCLEAR REMOVAL
+function removeBottomOverlayBranding() {
+    console.log('NUCLEAR: Removing bottom overlay branding...');
+    
+    // Remove all fixed/absolute positioned elements at bottom
+    document.querySelectorAll('div').forEach(div => {
+        const style = window.getComputedStyle(div);
+        
+        // Check for bottom positioned elements
+        if ((style.position === 'fixed' || style.position === 'absolute') && 
+            (style.bottom === '0px' || style.bottom === '10px' || style.bottom === '20px' ||
+             div.style.bottom === '0' || div.style.bottom === '10px' || div.style.bottom === '20px')) {
+            console.log('Removing bottom positioned element:', div);
+            div.remove();
+        }
+        
+        // Remove elements with high z-index that might be overlays
+        if (parseInt(style.zIndex) > 1000) {
+            const hasStreamlitLink = div.querySelector('a[href*="streamlit"]');
+            const hasGithubLink = div.querySelector('a[href*="github"]');
+            if (hasStreamlitLink || hasGithubLink) {
+                console.log('Removing high z-index branding element:', div);
+                div.remove();
+            }
+        }
+        
+        // Remove any div with branding text
+        if (div.textContent && div.textContent.trim()) {
+            const text = div.textContent.toLowerCase();
+            if (text.includes('hosted with streamlit') || 
+                text.includes('made with streamlit') ||
+                text.includes('streamlit.app') ||
+                text.includes('github.com')) {
+                console.log('Removing text-based branding element:', text);
+                div.remove();
+            }
+        }
+    });
     
     // Remove toolbar and header elements (overlay components)
     document.querySelectorAll('[data-testid="stToolbar"], [data-testid="stHeader"], [data-testid="stMainMenu"]').forEach(el => {
@@ -354,23 +507,15 @@ function removeOverlayBranding() {
         el.remove();
     });
     
-    // Remove floating/fixed position branding elements
-    document.querySelectorAll('div').forEach(div => {
-        const style = window.getComputedStyle(div);
-        if (style.position === 'fixed' || style.position === 'absolute') {
-            const hasStreamlitLink = div.querySelector('a[href*="streamlit"]');
-            const hasGithubLink = div.querySelector('a[href*="github"]');
-            if (hasStreamlitLink || hasGithubLink) {
-                console.log('Removing fixed/absolute positioned branding div');
-                div.remove();
-            }
+    // AGGRESSIVE: Remove all viewer badge elements
+    document.querySelectorAll('[class*="viewerBadge"], [class*="ViewerBadge"], [class*="viewer-badge"], [class*="st-emotion-cache"]').forEach(el => {
+        const hasStreamlitLink = el.querySelector('a[href*="streamlit"]');
+        const hasGithubLink = el.querySelector('a[href*="github"]');
+        if (hasStreamlitLink || hasGithubLink || 
+            el.className.toLowerCase().includes('viewerbadge')) {
+            console.log('Removing viewer badge element:', el);
+            el.remove();
         }
-    });
-    
-    // Remove viewer badge overlays specifically
-    document.querySelectorAll('[class*="viewerBadge"], [class*="ViewerBadge"]').forEach(el => {
-        console.log('Removing viewer badge:', el);
-        el.remove();
     });
     
     // Remove decoration overlays
@@ -379,27 +524,65 @@ function removeOverlayBranding() {
         el.remove();
     });
     
-    // Remove overlay links but preserve main content links
+    // NUCLEAR: Remove any link to streamlit or github anywhere
     document.querySelectorAll('a').forEach(link => {
-        if (link.href && (link.href.includes('streamlit.app') || link.href.includes('github.com'))) {
+        if (link.href && (link.href.includes('streamlit') || link.href.includes('github'))) {
             // Check if this link is inside the main content area
             const isInMainContent = link.closest('.main') || link.closest('.block-container') || 
-                                  link.closest('[data-testid="stApp"]');
+                                  link.closest('.stForm') || link.closest('.stMarkdown');
             
             // Only remove if it's NOT in main content (i.e., it's an overlay)
             if (!isInMainContent) {
-                console.log('Removing overlay branding link:', link.href);
-                link.remove();
-                // Remove parent if it becomes empty and looks like a branding container
-                if (link.parentElement && link.parentElement.children.length === 0 && 
-                    link.parentElement.textContent.trim() === '') {
-                    link.parentElement.remove();
+                console.log('NUCLEAR: Removing overlay branding link:', link.href);
+                
+                // Remove the link and potentially its containers
+                let parentToRemove = link;
+                let currentParent = link.parentElement;
+                
+                // Walk up the DOM to find the container to remove
+                while (currentParent && 
+                       !currentParent.classList.contains('main') && 
+                       !currentParent.classList.contains('block-container') &&
+                       currentParent !== document.body) {
+                    
+                    // If parent only contains this link or is likely a branding container
+                    if (currentParent.children.length === 1 || 
+                        currentParent.textContent.trim().length < 50) {
+                        parentToRemove = currentParent;
+                    }
+                    currentParent = currentParent.parentElement;
                 }
+                
+                parentToRemove.remove();
             }
         }
     });
     
-    // Ensure main content is visible
+    // Remove last child elements that might contain branding
+    const body = document.body;
+    const lastChild = body.lastElementChild;
+    if (lastChild && (lastChild.querySelector('a[href*="streamlit"]') || 
+                      lastChild.querySelector('a[href*="github"]'))) {
+        console.log('Removing last body child with branding:', lastChild);
+        lastChild.remove();
+    }
+    
+    // Remove any remaining elements with external links at bottom
+    document.querySelectorAll('div').forEach(div => {
+        const rect = div.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // If element is in bottom 100px of screen and has external links
+        if (rect.bottom > windowHeight - 100 && rect.bottom <= windowHeight) {
+            const hasExternalLinks = div.querySelector('a[target="_blank"]');
+            if (hasExternalLinks) {
+                console.log('Removing bottom-positioned element with external links:', div);
+                div.remove();
+            }
+        }
+    });
+    
+    // Ensure main content remains visible
     const mainElements = document.querySelectorAll('.stApp, .main, .block-container');
     mainElements.forEach(el => {
         if (el) {
@@ -409,84 +592,82 @@ function removeOverlayBranding() {
         }
     });
     
-    // Ensure Streamlit components are visible
-    const stComponents = document.querySelectorAll('[class^="st"], .stMarkdown, .stButton, .stSelectbox, .stTextInput');
-    stComponents.forEach(el => {
-        // Only make visible if it's not a branding component
-        if (!el.classList.toString().includes('viewerBadge') && 
-            !el.hasAttribute('data-testid') || 
-            (!el.getAttribute('data-testid').includes('stToolbar') && 
-             !el.getAttribute('data-testid').includes('stHeader'))) {
-            el.style.visibility = 'visible';
-            el.style.display = 'block';
-        }
-    });
-    
-    console.log('Overlay branding removal complete, main content preserved');
+    console.log('NUCLEAR bottom overlay branding removal complete');
 }
 
-// Run immediately but gently
-removeOverlayBranding();
+// Run immediately and aggressively
+removeBottomOverlayBranding();
 
-// Run every 1 second for first 10 seconds to catch overlay elements
+// Run every 500ms for first 20 seconds for persistent bottom elements
 let attempts = 0;
-const maxAttempts = 10;
+const maxAttempts = 40;
 const intervalId = setInterval(() => {
     attempts++;
-    removeOverlayBranding();
+    removeBottomOverlayBranding();
     if (attempts >= maxAttempts) {
         clearInterval(intervalId);
-        console.log('Stopped periodic overlay removal after', maxAttempts, 'attempts');
+        console.log('Stopped nuclear bottom branding removal after', maxAttempts, 'attempts');
     }
-}, 1000);
+}, 500);
 
-// Set up mutation observer for new overlay elements
+// Enhanced mutation observer for bottom elements
 const observer = new MutationObserver((mutations) => {
-    let foundOverlayBranding = false;
+    let foundBottomBranding = false;
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
             if (node.nodeType === 1) { // Element node
-                // Check for overlay branding elements
-                if (node.hasAttribute && (
-                    node.hasAttribute('data-testid') && 
-                    (node.getAttribute('data-testid').includes('stToolbar') ||
-                     node.getAttribute('data-testid').includes('stHeader') ||
-                     node.getAttribute('data-testid').includes('stDecoration'))
-                )) {
-                    foundOverlayBranding = true;
+                
+                // Check for bottom-positioned elements
+                if (node.style && 
+                    (node.style.position === 'fixed' || node.style.position === 'absolute') &&
+                    (node.style.bottom || node.style.bottom === '0')) {
+                    foundBottomBranding = true;
                 }
                 
                 // Check for viewer badge classes
                 if (node.className && typeof node.className === 'string' && 
-                    node.className.toLowerCase().includes('viewerbadge')) {
-                    foundOverlayBranding = true;
+                    (node.className.toLowerCase().includes('viewerbadge') ||
+                     node.className.includes('st-emotion-cache'))) {
+                    foundBottomBranding = true;
                 }
                 
-                // Check for fixed/absolute positioned elements with branding
-                if (node.style && (node.style.position === 'fixed' || node.style.position === 'absolute')) {
-                    if (node.querySelector && node.querySelector('a[href*="streamlit"], a[href*="github"]')) {
-                        foundOverlayBranding = true;
-                    }
+                // Check for any new links to streamlit/github
+                if (node.tagName === 'A' && node.href && 
+                    (node.href.includes('streamlit') || node.href.includes('github'))) {
+                    foundBottomBranding = true;
+                }
+                
+                // Check if node contains branding links
+                if (node.querySelector && 
+                    node.querySelector('a[href*="streamlit"], a[href*="github"]')) {
+                    foundBottomBranding = true;
                 }
             }
         });
     });
     
-    if (foundOverlayBranding) {
-        console.log('New overlay branding detected, removing...');
-        setTimeout(removeOverlayBranding, 100);
+    if (foundBottomBranding) {
+        console.log('NEW BOTTOM BRANDING DETECTED - REMOVING...');
+        setTimeout(removeBottomOverlayBranding, 50);
     }
 });
 
-// Start observing
+// Start observing with enhanced options
 observer.observe(document.body, {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['class', 'data-testid', 'style']
+    attributeFilter: ['class', 'data-testid', 'style', 'href'],
+    characterData: true
 });
 
-console.log('Surgical overlay branding removal system initialized');
+// Continuous monitoring every 5 seconds
+setInterval(() => {
+    console.log('Continuous bottom branding cleanup...');
+    removeBottomOverlayBranding();
+}, 5000);
+
+console.log('NUCLEAR bottom overlay branding removal system initialized');
 </script>
 """, unsafe_allow_html=True)
 
