@@ -133,7 +133,164 @@ st.markdown("""
         margin: 10px 0;
     }
     
-    /* Hide GitHub and Edit icons - Comprehensive */
+    /* ULTIMATE BRANDING REMOVAL - Comprehensive CSS */
+    
+    /* Hide all GitHub and Edit buttons in header */
+    [data-testid="stToolbar"] {
+        display: none !important;
+    }
+    
+    .stActionButton {
+        display: none !important;
+    }
+    
+    /* Hide main menu button */
+    [data-testid="stMainMenu"] {
+        display: none !important;
+    }
+    
+    /* Hide GitHub fork ribbon */
+    .github-corner {
+        display: none !important;
+    }
+    
+    /* Hide header completely */
+    header[data-testid="stHeader"] {
+        display: none !important;
+        height: 0 !important;
+    }
+    
+    /* Hide top toolbar area */
+    .stAppHeader {
+        display: none !important;
+    }
+    
+    /* Remove top padding since header is hidden */
+    .stAppViewContainer .main .block-container {
+        padding-top: 1rem !important;
+    }
+    
+    /* Hide footer elements - Multiple approaches */
+    footer {
+        display: none !important;
+    }
+    
+    [data-testid="stStatusWidget"] {
+        display: none !important;
+    }
+    
+    /* Hide viewer badge (Hosted with Streamlit) */
+    [class*="viewerBadge"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Hide any link containing streamlit or github */
+    a[href*="streamlit.app"] {
+        display: none !important;
+    }
+    
+    a[href*="github.com"] {
+        display: none !important;
+    }
+    
+    a[href*="streamlit.io"] {
+        display: none !important;
+    }
+    
+    /* Hide deployment info */
+    [data-testid="stDecoration"] {
+        display: none !important;
+    }
+    
+    /* Hide any small text elements that might be branding */
+    div[style*="font-size: 14px"] a {
+        display: none !important;
+    }
+    
+    /* Hide elements with specific text patterns */
+    *:contains("Streamlit") {
+        display: none !important;
+    }
+    
+    *:contains("GitHub") {
+        display: none !important;
+    }
+    
+    /* Hide the bottom decoration */
+    .main > div:last-child > div:last-child {
+        display: none !important;
+    }
+    
+    /* Hide any centered bottom links */
+    div[style*="text-align: center"] a[target="_blank"] {
+        display: none !important;
+    }
+    
+    /* Nuclear option for bottom branding area */
+    .stApp > div:last-of-type {
+        display: none !important;
+    }
+    
+    /* Hide sidebar branding if any */
+    .css-1d391kg a {
+        display: none !important;
+    }
+    
+    /* Remove any watermark or badge */
+    .stApp > div > div > div:last-child {
+        display: none !important;
+    }
+    
+    /* Additional targeting for dynamic elements */
+    [class*="stBottom"] {
+        display: none !important;
+    }
+    
+    [class*="Badge"] {
+        display: none !important;
+    }
+    
+    /* Hide any iframe that might contain branding */
+    iframe[src*="streamlit"] {
+        display: none !important;
+    }
+    
+    /* Hide floating elements */
+    .floating-element {
+        display: none !important;
+    }
+    
+    /* Target common Streamlit footer patterns */
+    div > div > a[rel="noopener"] {
+        display: none !important;
+    }
+    
+    /* Hide elements by common CSS classes */
+    .e1ewe7hr3, .e1ewe7hr2, .e1ewe7hr1, .e1ewe7hr0 {
+        display: none !important;
+    }
+    
+    /* Hide any element with "Made with" or "Hosted with" text */
+    *[data-text*="Made with"] {
+        display: none !important;
+    }
+    
+    *[data-text*="Hosted with"] {
+        display: none !important;
+    }
+    
+    /* More aggressive bottom element hiding */
+    .stApp .main + div {
+        display: none !important;
+    }
+    
+    /* Hide any small link at the bottom */
+    body > div:last-child {
+        display: none !important;
+    }
+    
+    /* CSS for app content visibility */
     .stActionButton[data-testid="stActionButton"] {
         display: none !important;
     }
@@ -266,137 +423,169 @@ st.markdown("""
 </style>
 
 <script>
-// Aggressive JavaScript to remove GitHub and Streamlit branding
-function removeGitHubAndStreamlitBranding() {
-    // Remove GitHub icon and links
-    const githubElements = document.querySelectorAll('a[href*="github.com"], a[href*="github"]');
-    githubElements.forEach(element => {
-        element.remove();
-        if (element.parentElement) {
-            element.parentElement.remove();
-        }
-    });
+// NUCLEAR OPTION: Remove ALL GitHub and Streamlit branding
+function nukeAllBranding() {
+    console.log('Starting aggressive branding removal...');
     
-    // Remove Streamlit links and badges
-    const streamlitElements = document.querySelectorAll('a[href*="streamlit"], a[href*="streamlit.app"]');
-    streamlitElements.forEach(element => {
-        element.remove();
-        if (element.parentElement) {
-            element.parentElement.remove();
+    // Remove all GitHub links
+    document.querySelectorAll('a').forEach(link => {
+        if (link.href && (
+            link.href.includes('github.com') || 
+            link.href.includes('github.io') ||
+            link.href.includes('streamlit.app') ||
+            link.href.includes('streamlit.io') ||
+            link.textContent.toLowerCase().includes('github') ||
+            link.textContent.toLowerCase().includes('streamlit')
+        )) {
+            console.log('Removing link:', link.href);
+            link.remove();
+            // Also remove parent if it becomes empty
+            if (link.parentElement && link.parentElement.children.length === 0) {
+                link.parentElement.remove();
+            }
         }
     });
     
     // Remove toolbar elements
-    const toolbar = document.querySelector('[data-testid="stToolbar"]');
-    if (toolbar) toolbar.remove();
+    document.querySelectorAll('[data-testid="stToolbar"], [data-testid="stHeader"], [data-testid="stMainMenu"]').forEach(el => {
+        console.log('Removing toolbar element:', el);
+        el.remove();
+    });
     
-    // Remove header elements
-    const header = document.querySelector('[data-testid="stHeader"]');
-    if (header) header.remove();
+    // Remove all elements with viewer badge classes
+    document.querySelectorAll('[class*="viewerBadge"], [class*="ViewerBadge"], [class*="viewer-badge"]').forEach(el => {
+        console.log('Removing viewer badge:', el);
+        el.remove();
+    });
     
-    // Remove action buttons
-    const actionButtons = document.querySelectorAll('[data-testid="stActionButton"]');
-    actionButtons.forEach(button => button.remove());
+    // Remove decoration elements
+    document.querySelectorAll('[data-testid="stDecoration"], [data-testid="stStatusWidget"]').forEach(el => {
+        console.log('Removing decoration:', el);
+        el.remove();
+    });
     
-    // Remove any "Made with Streamlit" or "Hosted with Streamlit" text
-    const streamlitBadges = document.querySelectorAll('.viewerBadge_container__1QSob, .viewerBadge_link__1S137, .viewerBadge_container__r5tak, .viewerBadge_link__qRIco');
-    streamlitBadges.forEach(badge => badge.remove());
-    
-    // Remove footer elements
-    const footers = document.querySelectorAll('footer');
-    footers.forEach(footer => footer.remove());
-    
-    // Remove streamlit decoration elements
-    const decorations = document.querySelectorAll('[data-testid="stDecoration"]');
-    decorations.forEach(decoration => decoration.remove());
-    
-    // Remove viewer badge elements by class pattern
-    const viewerBadges = document.querySelectorAll('[class*="viewerBadge"]');
-    viewerBadges.forEach(badge => badge.remove());
-    
-    // Remove any element containing specific branding text
-    const allElements = document.querySelectorAll('*');
-    allElements.forEach(element => {
-        if (element.textContent) {
-            const text = element.textContent.toLowerCase();
-            if (text.includes('hosted with streamlit') || 
+    // Remove any element containing branding text
+    document.querySelectorAll('*').forEach(el => {
+        if (el.textContent && el.children.length === 0) { // Only text nodes
+            const text = el.textContent.toLowerCase().trim();
+            if (text.includes('hosted with streamlit') ||
                 text.includes('made with streamlit') ||
                 text.includes('streamlit.app') ||
                 text.includes('github.com') ||
-                (text.includes('streamlit') && element.tagName === 'A') ||
-                (text.includes('github') && element.tagName === 'A')) {
-                element.remove();
+                text === 'streamlit' ||
+                text === 'github') {
+                console.log('Removing text element:', text);
+                el.remove();
             }
         }
     });
     
-    // Remove elements by common branding attributes
-    const brandingElements = document.querySelectorAll('a[target="_blank"]');
-    brandingElements.forEach(element => {
-        if (element.href && (element.href.includes('streamlit') || element.href.includes('github'))) {
-            element.remove();
+    // Remove footer elements
+    document.querySelectorAll('footer').forEach(el => el.remove());
+    
+    // Remove any iframe that might contain branding
+    document.querySelectorAll('iframe').forEach(iframe => {
+        if (iframe.src && (iframe.src.includes('streamlit') || iframe.src.includes('github'))) {
+            console.log('Removing iframe:', iframe.src);
+            iframe.remove();
         }
     });
     
-    // Remove small text elements that might be branding
-    const smallElements = document.querySelectorAll('div[style*="font-size: 12px"], div[style*="font-size: 0.75rem"]');
-    smallElements.forEach(element => {
-        if (element.textContent && (element.textContent.includes('Streamlit') || element.textContent.includes('GitHub'))) {
-            element.remove();
+    // Remove any div with specific styling that might be branding
+    document.querySelectorAll('div').forEach(div => {
+        const style = window.getComputedStyle(div);
+        if (style.fontSize === '12px' || style.fontSize === '0.75rem') {
+            const hasStreamlitLink = div.querySelector('a[href*="streamlit"]');
+            const hasGithubLink = div.querySelector('a[href*="github"]');
+            if (hasStreamlitLink || hasGithubLink) {
+                console.log('Removing small div with branding links');
+                div.remove();
+            }
         }
     });
     
-    // Remove centered bottom elements that might be branding
-    const centeredElements = document.querySelectorAll('div[style*="text-align: center"]');
-    centeredElements.forEach(element => {
-        if (element.textContent && element.textContent.length < 100 && 
-            (element.textContent.includes('Streamlit') || element.textContent.includes('GitHub'))) {
-            element.remove();
+    // Remove elements by position (common footer locations)
+    const app = document.querySelector('.stApp');
+    if (app) {
+        const lastChild = app.lastElementChild;
+        if (lastChild && lastChild.querySelector('a[href*="streamlit"], a[href*="github"]')) {
+            console.log('Removing last child with branding');
+            lastChild.remove();
+        }
+    }
+    
+    // Remove any remaining target="_blank" links that go to streamlit or github
+    document.querySelectorAll('a[target="_blank"]').forEach(link => {
+        if (link.href && (link.href.includes('streamlit') || link.href.includes('github'))) {
+            console.log('Removing external link:', link.href);
+            link.remove();
         }
     });
+    
+    console.log('Branding removal complete');
 }
 
 // Run immediately
-removeGitHubAndStreamlitBranding();
+nukeAllBranding();
 
-// Run after 1 second
-setTimeout(removeGitHubAndStreamlitBranding, 1000);
+// Run every 500ms for the first 10 seconds to catch dynamic content
+let attempts = 0;
+const maxAttempts = 20;
+const intervalId = setInterval(() => {
+    attempts++;
+    nukeAllBranding();
+    if (attempts >= maxAttempts) {
+        clearInterval(intervalId);
+        console.log('Stopped periodic branding removal after', maxAttempts, 'attempts');
+    }
+}, 500);
 
-// Run after 3 seconds to catch lazy-loaded elements
-setTimeout(removeGitHubAndStreamlitBranding, 3000);
-
-// Run after 5 seconds for final cleanup
-setTimeout(removeGitHubAndStreamlitBranding, 5000);
-
-// Set up a mutation observer to catch dynamically added elements
-const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-        mutation.addedNodes.forEach(function(node) {
+// Set up mutation observer for dynamic content
+const observer = new MutationObserver((mutations) => {
+    let foundBranding = false;
+    mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
             if (node.nodeType === 1) { // Element node
-                // Check if the added node or its children contain branding
-                const brandingLinks = node.querySelectorAll ? 
-                    node.querySelectorAll('a[href*="streamlit"], a[href*="github"], [class*="viewerBadge"]') : [];
-                
-                brandingLinks.forEach(link => link.remove());
-                
-                // Check if the node itself is branding
+                // Check if it's a branding element
                 if (node.tagName === 'A' && node.href && 
                     (node.href.includes('streamlit') || node.href.includes('github'))) {
-                    node.remove();
+                    foundBranding = true;
+                }
+                // Check if it contains branding elements
+                if (node.querySelectorAll && 
+                    node.querySelectorAll('a[href*="streamlit"], a[href*="github"]').length > 0) {
+                    foundBranding = true;
+                }
+                // Check for viewer badge classes
+                if (node.className && typeof node.className === 'string' && 
+                    node.className.toLowerCase().includes('viewerbadge')) {
+                    foundBranding = true;
                 }
             }
         });
     });
+    
+    if (foundBranding) {
+        console.log('New branding detected, removing...');
+        setTimeout(nukeAllBranding, 100);
+    }
 });
 
 // Start observing
 observer.observe(document.body, {
     childList: true,
-    subtree: true
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class', 'href']
 });
 
-// Final aggressive cleanup every 10 seconds
-setInterval(removeGitHubAndStreamlitBranding, 10000);
+// Final cleanup every 30 seconds
+setInterval(() => {
+    console.log('Periodic branding cleanup...');
+    nukeAllBranding();
+}, 30000);
+
+console.log('Branding removal system initialized');
 </script>
 """, unsafe_allow_html=True)
 
