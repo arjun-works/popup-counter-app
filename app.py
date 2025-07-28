@@ -196,6 +196,43 @@ st.markdown("""
     .main .stActionButton {
         display: none !important;
     }
+    
+    /* Hide Streamlit footer and hosting credits */
+    .viewerBadge_container__r5tak {
+        display: none !important;
+    }
+    .viewerBadge_link__qRIco {
+        display: none !important;
+    }
+    div[data-testid="stDecoration"] {
+        display: none !important;
+    }
+    
+    /* Hide bottom elements more aggressively */
+    .stApp > div:last-child {
+        display: none !important;
+    }
+    
+    /* Hide any element containing streamlit text */
+    *[class*="streamlit"], *[class*="Streamlit"] {
+        display: none !important;
+    }
+    
+    /* Hide elements with specific text content */
+    div:contains("Hosted with Streamlit") {
+        display: none !important;
+    }
+    
+    /* Hide bottom decoration elements */
+    .decoration {
+        display: none !important;
+    }
+    
+    /* Remove margin from bottom */
+    .stApp {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
 </style>
 
 <script>
@@ -224,16 +261,57 @@ setTimeout(function() {
     // Remove footer elements
     const footers = document.querySelectorAll('footer');
     footers.forEach(footer => footer.remove());
+    
+    // Remove streamlit decoration elements
+    const decorations = document.querySelectorAll('[data-testid="stDecoration"]');
+    decorations.forEach(decoration => decoration.remove());
+    
+    // Remove viewer badge elements
+    const viewerBadges = document.querySelectorAll('[class*="viewerBadge"]');
+    viewerBadges.forEach(badge => badge.remove());
+    
+    // Remove any element containing "streamlit" text
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(element => {
+        if (element.textContent && element.textContent.toLowerCase().includes('streamlit')) {
+            element.remove();
+        }
+        if (element.textContent && element.textContent.toLowerCase().includes('hosted with')) {
+            element.remove();
+        }
+    });
 }, 1000);
 
-// Run again after 3 seconds in case elements load later
+// Run multiple times to catch dynamically loaded elements
 setTimeout(function() {
     const githubElements = document.querySelectorAll('a[href*="github.com"]');
     githubElements.forEach(element => element.remove());
     
     const actionButtons = document.querySelectorAll('[data-testid="stActionButton"]');
     actionButtons.forEach(button => button.remove());
+    
+    // Remove decorations again
+    const decorations = document.querySelectorAll('[data-testid="stDecoration"]');
+    decorations.forEach(decoration => decoration.remove());
+    
+    // Remove any element with streamlit class names
+    const streamlitElements = document.querySelectorAll('[class*="streamlit"], [class*="Streamlit"]');
+    streamlitElements.forEach(element => element.remove());
 }, 3000);
+
+// Final cleanup after 5 seconds
+setTimeout(function() {
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(element => {
+        if (element.textContent && (
+            element.textContent.includes('Hosted with Streamlit') || 
+            element.textContent.includes('github.com') ||
+            element.textContent.toLowerCase().includes('streamlit')
+        )) {
+            element.style.display = 'none';
+        }
+    });
+}, 5000);
 </script>
 """, unsafe_allow_html=True)
 
