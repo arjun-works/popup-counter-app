@@ -133,6 +133,45 @@ st.markdown("""
         margin: 10px 0;
     }
     
+    /* ULTIMATE STREAMLIT BRANDING REMOVAL */
+    
+    /* Hide hamburger menu (MainMenu) */
+    #MainMenu {
+        visibility: hidden !important;
+        display: none !important;
+    }
+    
+    /* Hide "Made with Streamlit" footer */
+    footer {
+        visibility: hidden !important;
+        display: none !important;
+    }
+    
+    /* Additional hamburger menu targeting */
+    [data-testid="stMainMenu"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Hide header completely */
+    header {
+        visibility: hidden !important;
+        display: none !important;
+    }
+    
+    /* Hide any footer elements */
+    footer, 
+    .stApp > footer,
+    div[data-testid="stBottomBlockContainer"] footer {
+        visibility: hidden !important;
+        display: none !important;
+    }
+    
+    /* Hide Streamlit watermark */
+    .streamlit-footer {
+        display: none !important;
+    }
+    
     /* TARGETED OVERLAY BRANDING REMOVAL */
     
     /* Hide floating/overlay GitHub and Streamlit elements */
@@ -502,8 +541,14 @@ function removeBottomOverlayBranding() {
     });
     
     // Remove toolbar and header elements (overlay components)
-    document.querySelectorAll('[data-testid="stToolbar"], [data-testid="stHeader"], [data-testid="stMainMenu"]').forEach(el => {
+    document.querySelectorAll('[data-testid="stToolbar"], [data-testid="stHeader"], [data-testid="stMainMenu"], #MainMenu').forEach(el => {
         console.log('Removing header/toolbar element:', el);
+        el.remove();
+    });
+    
+    // Remove footer elements specifically
+    document.querySelectorAll('footer, .streamlit-footer, [data-testid="stBottomBlockContainer"] footer').forEach(el => {
+        console.log('Removing footer element:', el);
         el.remove();
     });
     
