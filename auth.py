@@ -111,12 +111,23 @@ class Authentication:
         config = self.load_config()
         
         if config:
-            authenticator = stauth.Authenticate(
-                config['credentials'],
-                config['cookie']['name'],
-                config['cookie']['key'],
-                config['cookie']['expiry_days']
-            )
+            try:
+                # Try newer streamlit-authenticator API
+                authenticator = stauth.Authenticate(
+                    config['credentials'],
+                    config['cookie']['name'],
+                    config['cookie']['key'],
+                    config['cookie']['expiry_days'],
+                    preauthorized=None
+                )
+            except TypeError:
+                # Fallback to older API
+                authenticator = stauth.Authenticate(
+                    config['credentials'],
+                    config['cookie']['name'],
+                    config['cookie']['key'],
+                    config['cookie']['expiry_days']
+                )
             return authenticator
         return None
     
