@@ -132,7 +132,109 @@ st.markdown("""
         border-radius: 10px;
         margin: 10px 0;
     }
+    
+    /* Hide GitHub and Edit icons - Comprehensive */
+    .stActionButton[data-testid="stActionButton"] {
+        display: none !important;
+    }
+    .stDeployButton {
+        display: none !important;
+    }
+    .stToolbar {
+        display: none !important;
+    }
+    div[data-testid="stToolbar"] {
+        display: none !important;
+    }
+    .stAppToolbar {
+        display: none !important;
+    }
+    /* Hide GitHub icon specifically */
+    .stActionButton[title*="View app source on GitHub"] {
+        display: none !important;
+    }
+    .stActionButton[title*="GitHub"] {
+        display: none !important;
+    }
+    /* Hide Edit button */
+    .stActionButton[title*="Edit this app"] {
+        display: none !important;
+    }
+    /* Hide all toolbar elements */
+    header[data-testid="stHeader"] {
+        display: none !important;
+    }
+    .stApp > header[data-testid="stHeader"] {
+        display: none !important;
+    }
+    /* Hide GitHub footer/bottom elements */
+    .viewerBadge_container__1QSob {
+        display: none !important;
+    }
+    .viewerBadge_link__1S137 {
+        display: none !important;
+    }
+    /* Hide "Made with Streamlit" and GitHub links */
+    footer {
+        display: none !important;
+    }
+    .stApp > footer {
+        display: none !important;
+    }
+    /* Hide any GitHub related elements */
+    a[href*="github.com"] {
+        display: none !important;
+    }
+    /* Hide the entire header toolbar */
+    .stAppViewContainer > .main .block-container {
+        padding-top: 1rem !important;
+    }
+    /* Alternative selectors for hiding toolbar */
+    section[data-testid="stSidebar"] .stActionButton {
+        display: none !important;
+    }
+    .main .stActionButton {
+        display: none !important;
+    }
 </style>
+
+<script>
+// JavaScript to remove GitHub elements
+setTimeout(function() {
+    // Remove GitHub icon and links
+    const githubElements = document.querySelectorAll('a[href*="github.com"]');
+    githubElements.forEach(element => element.remove());
+    
+    // Remove toolbar elements
+    const toolbar = document.querySelector('[data-testid="stToolbar"]');
+    if (toolbar) toolbar.remove();
+    
+    // Remove header elements
+    const header = document.querySelector('[data-testid="stHeader"]');
+    if (header) header.remove();
+    
+    // Remove action buttons
+    const actionButtons = document.querySelectorAll('[data-testid="stActionButton"]');
+    actionButtons.forEach(button => button.remove());
+    
+    // Remove any "Made with Streamlit" text
+    const streamlitBadges = document.querySelectorAll('.viewerBadge_container__1QSob, .viewerBadge_link__1S137');
+    streamlitBadges.forEach(badge => badge.remove());
+    
+    // Remove footer elements
+    const footers = document.querySelectorAll('footer');
+    footers.forEach(footer => footer.remove());
+}, 1000);
+
+// Run again after 3 seconds in case elements load later
+setTimeout(function() {
+    const githubElements = document.querySelectorAll('a[href*="github.com"]');
+    githubElements.forEach(element => element.remove());
+    
+    const actionButtons = document.querySelectorAll('[data-testid="stActionButton"]');
+    actionButtons.forEach(button => button.remove());
+}, 3000);
+</script>
 """, unsafe_allow_html=True)
 
 def initialize_session_state():

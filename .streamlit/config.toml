@@ -11,3 +11,10 @@ textColor = "#262730"
 
 [client]
 showErrorDetails = true
+
+# Hide GitHub and Edit icons
+[browser]
+gatherUsageStats = false
+
+[ui]
+hideTopBar = false
