@@ -1,7 +1,8 @@
 # Streamlit Configuration
 [server]
-port = 8501
 enableCORS = false
+enableXsrfProtection = false
+maxUploadSize = 200
 
 [theme]
 primaryColor = "#1f77b4"
@@ -10,7 +11,8 @@ secondaryBackgroundColor = "#f0f2f6"
 textColor = "#262730"
 
 [client]
-showErrorDetails = true
+showErrorDetails = false
+toolbarMode = "minimal"
 
 # Hide GitHub and Edit icons
 [browser]
@@ -18,3 +20,7 @@ gatherUsageStats = false
 
 [ui]
 hideTopBar = false
+
+[runner]
+magicEnabled = false
+installTracer = false
