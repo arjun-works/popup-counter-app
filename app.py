@@ -29,29 +29,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better UI and COMPLETE Streamlit branding removal
-hide_st_style = """
+# Custom CSS for better UI
+st.markdown("""
 <style>
-    /* COMPLETE STREAMLIT BRANDING REMOVAL */
-    #MainMenu {visibility: hidden !important;}
-    footer {visibility: hidden !important;}
-    header {visibility: hidden !important;}
-    
-    /* Additional comprehensive hiding */
-    .stDeployButton {display: none !important;}
-    [data-testid="stToolbar"] {display: none !important;}
-    [data-testid="stDecoration"] {display: none !important;}
-    [data-testid="stStatusWidget"] {display: none !important;}
-    [data-testid="stHeader"] {display: none !important;}
-    [data-testid="stMainMenu"] {display: none !important;}
-    
-    /* Hide viewer badge and GitHub elements */
-    .viewerBadge_container__1QSob,
-    .viewerBadge_link__1S137,
-    .viewerBadge_container__r5tak,
-    .viewerBadge_link__qRIco {display: none !important;}
-    
-    /* Application styles */
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
@@ -152,15 +132,8 @@ hide_st_style = """
         border-radius: 10px;
         margin: 10px 0;
     }
-    
-    /* Remove top padding since header is hidden */
-    .stAppViewContainer .main .block-container {
-        padding-top: 1rem !important;
-    }
 </style>
-"""
-
-st.markdown(hide_st_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 def initialize_session_state():
     """Initialize session state variables"""
@@ -404,8 +377,7 @@ def show_email_center(db, email_service):
         
         # Email template customization
         st.subheader("📝 Email Template")
-        email_subject = st.text_input("Subject", value="🎮 Your Event Score Results!")
-        email_body = st.text_area(
+        st.text_area(
             "Email Body (Use {name}, {total_score}, {gift_type} as placeholders)",
             value="""Dear {name},
 
@@ -419,7 +391,8 @@ Thank you for your participation!
 
 Best regards,
 Event Team""",
-            height=200
+            height=200,
+            disabled=True
         )
     
     with col2:
@@ -443,13 +416,6 @@ Event Team""",
                     if not recipients.empty:
                         success_count = 0
                         for _, participant in recipients.iterrows():
-                            # Customize email for each participant
-                            personalized_body = email_body.format(
-                                name=participant['name'],
-                                total_score=participant['total'],
-                                gift_type=participant['gift_type']
-                            )
-                            
                             # Here you would integrate with SendGrid or SMTP
                             # For now, we'll simulate the email sending
                             success_count += 1

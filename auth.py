@@ -247,26 +247,3 @@ class Authentication:
         """Get the assigned game number for a game operator"""
         user_info = self.get_user_info(username)
         return user_info.get('assigned_game')
-    
-    def recreate_game_operators(self):
-        """Recreate game operator accounts with fresh passwords"""
-        users = self.load_users()
-        
-        # Create game operator password
-        game_password = "game123"
-        game_hashed = bcrypt.hashpw(game_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        
-        # Add/update game operators
-        for i in range(1, 6):
-            username = f"game{i}_op"
-            users[username] = {
-                "name": f"Game {i} Operator",
-                "emp_id": f"GAME00{i}",
-                "email": f"game{i}@company.com",
-                "password": game_hashed,
-                "is_admin": False,
-                "role": "game_operator",
-                "assigned_game": i
-            }
-        
-        return self.save_users(users)
