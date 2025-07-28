@@ -133,35 +133,24 @@ st.markdown("""
         margin: 10px 0;
     }
     
-    /* ULTIMATE BRANDING REMOVAL - Comprehensive CSS */
+    /* TARGETED OVERLAY BRANDING REMOVAL */
     
-    /* Hide all GitHub and Edit buttons in header */
+    /* Hide floating/overlay GitHub and Streamlit elements */
     [data-testid="stToolbar"] {
         display: none !important;
     }
     
-    .stActionButton {
-        display: none !important;
-    }
-    
-    /* Hide main menu button */
-    [data-testid="stMainMenu"] {
-        display: none !important;
-    }
-    
-    /* Hide GitHub fork ribbon */
-    .github-corner {
-        display: none !important;
-    }
-    
-    /* Hide header completely */
-    header[data-testid="stHeader"] {
+    [data-testid="stHeader"] {
         display: none !important;
         height: 0 !important;
     }
     
-    /* Hide top toolbar area */
-    .stAppHeader {
+    [data-testid="stMainMenu"] {
+        display: none !important;
+    }
+    
+    /* Hide action buttons that float */
+    .stActionButton {
         display: none !important;
     }
     
@@ -170,127 +159,59 @@ st.markdown("""
         padding-top: 1rem !important;
     }
     
-    /* Hide footer elements - Multiple approaches */
-    footer {
+    /* Target overlay/floating branding specifically */
+    div[style*="position: fixed"] a[href*="streamlit"],
+    div[style*="position: absolute"] a[href*="streamlit"],
+    div[style*="position: fixed"] a[href*="github"],
+    div[style*="position: absolute"] a[href*="github"] {
         display: none !important;
     }
     
-    [data-testid="stStatusWidget"] {
-        display: none !important;
-    }
-    
-    /* Hide viewer badge (Hosted with Streamlit) */
+    /* Hide floating viewer badges */
     [class*="viewerBadge"] {
         display: none !important;
         visibility: hidden !important;
+        opacity: 0 !important;
     }
     
-    /* Hide any link containing streamlit or github */
-    a[href*="streamlit.app"] {
-        display: none !important;
-    }
-    
-    a[href*="github.com"] {
-        display: none !important;
-    }
-    
-    a[href*="streamlit.io"] {
-        display: none !important;
-    }
-    
-    /* Hide deployment info */
+    /* Hide overlay decorations */
     [data-testid="stDecoration"] {
         display: none !important;
     }
     
-    /* Hide any small text elements that might be branding */
-    div[style*="font-size: 14px"] a {
+    /* Hide any fixed position elements with branding */
+    div[style*="z-index"][style*="position"] {
         display: none !important;
     }
     
-    /* Hide elements with specific text patterns */
-    *:contains("Streamlit") {
-        display: none !important;
+    /* Ensure main content is fully visible */
+    .stApp {
+        visibility: visible !important;
+        display: block !important;
     }
     
-    *:contains("GitHub") {
-        display: none !important;
+    .main {
+        visibility: visible !important;
+        display: block !important;
     }
     
-    /* Hide the bottom decoration */
-    .main > div:last-child > div:last-child {
-        display: none !important;
+    .block-container {
+        visibility: visible !important;
+        display: block !important;
     }
     
-    /* Hide any centered bottom links */
-    div[style*="text-align: center"] a[target="_blank"] {
-        display: none !important;
+    /* Ensure all Streamlit components are visible */
+    .stMarkdown, .stButton, .stSelectbox, .stTextInput, .stNumberInput, 
+    .stDataFrame, .stTabs, .stColumns, .stForm {
+        visibility: visible !important;
+        display: block !important;
     }
     
-    /* Nuclear option for bottom branding area */
-    .stApp > div:last-of-type {
+    /* Hide only specific overlay links */
+    a[href*="streamlit.app"]:not(.main a),
+    a[href*="github.com"]:not(.main a) {
         display: none !important;
     }
-    
-    /* Hide sidebar branding if any */
-    .css-1d391kg a {
-        display: none !important;
-    }
-    
-    /* Remove any watermark or badge */
-    .stApp > div > div > div:last-child {
-        display: none !important;
-    }
-    
-    /* Additional targeting for dynamic elements */
-    [class*="stBottom"] {
-        display: none !important;
-    }
-    
-    [class*="Badge"] {
-        display: none !important;
-    }
-    
-    /* Hide any iframe that might contain branding */
-    iframe[src*="streamlit"] {
-        display: none !important;
-    }
-    
-    /* Hide floating elements */
-    .floating-element {
-        display: none !important;
-    }
-    
-    /* Target common Streamlit footer patterns */
-    div > div > a[rel="noopener"] {
-        display: none !important;
-    }
-    
-    /* Hide elements by common CSS classes */
-    .e1ewe7hr3, .e1ewe7hr2, .e1ewe7hr1, .e1ewe7hr0 {
-        display: none !important;
-    }
-    
-    /* Hide any element with "Made with" or "Hosted with" text */
-    *[data-text*="Made with"] {
-        display: none !important;
-    }
-    
-    *[data-text*="Hosted with"] {
-        display: none !important;
-    }
-    
-    /* More aggressive bottom element hiding */
-    .stApp .main + div {
-        display: none !important;
-    }
-    
-    /* Hide any small link at the bottom */
-    body > div:last-child {
-        display: none !important;
-    }
-    
-    /* CSS for app content visibility */
     .stActionButton[data-testid="stActionButton"] {
         display: none !important;
     }
@@ -423,151 +344,137 @@ st.markdown("""
 </style>
 
 <script>
-// NUCLEAR OPTION: Remove ALL GitHub and Streamlit branding
-function nukeAllBranding() {
-    console.log('Starting aggressive branding removal...');
+// SURGICAL OVERLAY BRANDING REMOVAL - Preserve main content
+function removeOverlayBranding() {
+    console.log('Removing overlay branding while preserving content...');
     
-    // Remove all GitHub links
-    document.querySelectorAll('a').forEach(link => {
-        if (link.href && (
-            link.href.includes('github.com') || 
-            link.href.includes('github.io') ||
-            link.href.includes('streamlit.app') ||
-            link.href.includes('streamlit.io') ||
-            link.textContent.toLowerCase().includes('github') ||
-            link.textContent.toLowerCase().includes('streamlit')
-        )) {
-            console.log('Removing link:', link.href);
-            link.remove();
-            // Also remove parent if it becomes empty
-            if (link.parentElement && link.parentElement.children.length === 0) {
-                link.parentElement.remove();
-            }
-        }
-    });
-    
-    // Remove toolbar elements
+    // Remove toolbar and header elements (overlay components)
     document.querySelectorAll('[data-testid="stToolbar"], [data-testid="stHeader"], [data-testid="stMainMenu"]').forEach(el => {
-        console.log('Removing toolbar element:', el);
+        console.log('Removing header/toolbar element:', el);
         el.remove();
     });
     
-    // Remove all elements with viewer badge classes
-    document.querySelectorAll('[class*="viewerBadge"], [class*="ViewerBadge"], [class*="viewer-badge"]').forEach(el => {
-        console.log('Removing viewer badge:', el);
-        el.remove();
-    });
-    
-    // Remove decoration elements
-    document.querySelectorAll('[data-testid="stDecoration"], [data-testid="stStatusWidget"]').forEach(el => {
-        console.log('Removing decoration:', el);
-        el.remove();
-    });
-    
-    // Remove any element containing branding text
-    document.querySelectorAll('*').forEach(el => {
-        if (el.textContent && el.children.length === 0) { // Only text nodes
-            const text = el.textContent.toLowerCase().trim();
-            if (text.includes('hosted with streamlit') ||
-                text.includes('made with streamlit') ||
-                text.includes('streamlit.app') ||
-                text.includes('github.com') ||
-                text === 'streamlit' ||
-                text === 'github') {
-                console.log('Removing text element:', text);
-                el.remove();
-            }
-        }
-    });
-    
-    // Remove footer elements
-    document.querySelectorAll('footer').forEach(el => el.remove());
-    
-    // Remove any iframe that might contain branding
-    document.querySelectorAll('iframe').forEach(iframe => {
-        if (iframe.src && (iframe.src.includes('streamlit') || iframe.src.includes('github'))) {
-            console.log('Removing iframe:', iframe.src);
-            iframe.remove();
-        }
-    });
-    
-    // Remove any div with specific styling that might be branding
+    // Remove floating/fixed position branding elements
     document.querySelectorAll('div').forEach(div => {
         const style = window.getComputedStyle(div);
-        if (style.fontSize === '12px' || style.fontSize === '0.75rem') {
+        if (style.position === 'fixed' || style.position === 'absolute') {
             const hasStreamlitLink = div.querySelector('a[href*="streamlit"]');
             const hasGithubLink = div.querySelector('a[href*="github"]');
             if (hasStreamlitLink || hasGithubLink) {
-                console.log('Removing small div with branding links');
+                console.log('Removing fixed/absolute positioned branding div');
                 div.remove();
             }
         }
     });
     
-    // Remove elements by position (common footer locations)
-    const app = document.querySelector('.stApp');
-    if (app) {
-        const lastChild = app.lastElementChild;
-        if (lastChild && lastChild.querySelector('a[href*="streamlit"], a[href*="github"]')) {
-            console.log('Removing last child with branding');
-            lastChild.remove();
-        }
-    }
+    // Remove viewer badge overlays specifically
+    document.querySelectorAll('[class*="viewerBadge"], [class*="ViewerBadge"]').forEach(el => {
+        console.log('Removing viewer badge:', el);
+        el.remove();
+    });
     
-    // Remove any remaining target="_blank" links that go to streamlit or github
-    document.querySelectorAll('a[target="_blank"]').forEach(link => {
-        if (link.href && (link.href.includes('streamlit') || link.href.includes('github'))) {
-            console.log('Removing external link:', link.href);
-            link.remove();
+    // Remove decoration overlays
+    document.querySelectorAll('[data-testid="stDecoration"], [data-testid="stStatusWidget"]').forEach(el => {
+        console.log('Removing decoration overlay:', el);
+        el.remove();
+    });
+    
+    // Remove overlay links but preserve main content links
+    document.querySelectorAll('a').forEach(link => {
+        if (link.href && (link.href.includes('streamlit.app') || link.href.includes('github.com'))) {
+            // Check if this link is inside the main content area
+            const isInMainContent = link.closest('.main') || link.closest('.block-container') || 
+                                  link.closest('[data-testid="stApp"]');
+            
+            // Only remove if it's NOT in main content (i.e., it's an overlay)
+            if (!isInMainContent) {
+                console.log('Removing overlay branding link:', link.href);
+                link.remove();
+                // Remove parent if it becomes empty and looks like a branding container
+                if (link.parentElement && link.parentElement.children.length === 0 && 
+                    link.parentElement.textContent.trim() === '') {
+                    link.parentElement.remove();
+                }
+            }
         }
     });
     
-    console.log('Branding removal complete');
+    // Ensure main content is visible
+    const mainElements = document.querySelectorAll('.stApp, .main, .block-container');
+    mainElements.forEach(el => {
+        if (el) {
+            el.style.visibility = 'visible';
+            el.style.display = 'block';
+            el.style.opacity = '1';
+        }
+    });
+    
+    // Ensure Streamlit components are visible
+    const stComponents = document.querySelectorAll('[class^="st"], .stMarkdown, .stButton, .stSelectbox, .stTextInput');
+    stComponents.forEach(el => {
+        // Only make visible if it's not a branding component
+        if (!el.classList.toString().includes('viewerBadge') && 
+            !el.hasAttribute('data-testid') || 
+            (!el.getAttribute('data-testid').includes('stToolbar') && 
+             !el.getAttribute('data-testid').includes('stHeader'))) {
+            el.style.visibility = 'visible';
+            el.style.display = 'block';
+        }
+    });
+    
+    console.log('Overlay branding removal complete, main content preserved');
 }
 
-// Run immediately
-nukeAllBranding();
+// Run immediately but gently
+removeOverlayBranding();
 
-// Run every 500ms for the first 10 seconds to catch dynamic content
+// Run every 1 second for first 10 seconds to catch overlay elements
 let attempts = 0;
-const maxAttempts = 20;
+const maxAttempts = 10;
 const intervalId = setInterval(() => {
     attempts++;
-    nukeAllBranding();
+    removeOverlayBranding();
     if (attempts >= maxAttempts) {
         clearInterval(intervalId);
-        console.log('Stopped periodic branding removal after', maxAttempts, 'attempts');
+        console.log('Stopped periodic overlay removal after', maxAttempts, 'attempts');
     }
-}, 500);
+}, 1000);
 
-// Set up mutation observer for dynamic content
+// Set up mutation observer for new overlay elements
 const observer = new MutationObserver((mutations) => {
-    let foundBranding = false;
+    let foundOverlayBranding = false;
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
             if (node.nodeType === 1) { // Element node
-                // Check if it's a branding element
-                if (node.tagName === 'A' && node.href && 
-                    (node.href.includes('streamlit') || node.href.includes('github'))) {
-                    foundBranding = true;
+                // Check for overlay branding elements
+                if (node.hasAttribute && (
+                    node.hasAttribute('data-testid') && 
+                    (node.getAttribute('data-testid').includes('stToolbar') ||
+                     node.getAttribute('data-testid').includes('stHeader') ||
+                     node.getAttribute('data-testid').includes('stDecoration'))
+                )) {
+                    foundOverlayBranding = true;
                 }
-                // Check if it contains branding elements
-                if (node.querySelectorAll && 
-                    node.querySelectorAll('a[href*="streamlit"], a[href*="github"]').length > 0) {
-                    foundBranding = true;
-                }
+                
                 // Check for viewer badge classes
                 if (node.className && typeof node.className === 'string' && 
                     node.className.toLowerCase().includes('viewerbadge')) {
-                    foundBranding = true;
+                    foundOverlayBranding = true;
+                }
+                
+                // Check for fixed/absolute positioned elements with branding
+                if (node.style && (node.style.position === 'fixed' || node.style.position === 'absolute')) {
+                    if (node.querySelector && node.querySelector('a[href*="streamlit"], a[href*="github"]')) {
+                        foundOverlayBranding = true;
+                    }
                 }
             }
         });
     });
     
-    if (foundBranding) {
-        console.log('New branding detected, removing...');
-        setTimeout(nukeAllBranding, 100);
+    if (foundOverlayBranding) {
+        console.log('New overlay branding detected, removing...');
+        setTimeout(removeOverlayBranding, 100);
     }
 });
 
@@ -576,16 +483,10 @@ observer.observe(document.body, {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['class', 'href']
+    attributeFilter: ['class', 'data-testid', 'style']
 });
 
-// Final cleanup every 30 seconds
-setInterval(() => {
-    console.log('Periodic branding cleanup...');
-    nukeAllBranding();
-}, 30000);
-
-console.log('Branding removal system initialized');
+console.log('Surgical overlay branding removal system initialized');
 </script>
 """, unsafe_allow_html=True)
 
