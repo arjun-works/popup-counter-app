@@ -28,8 +28,7 @@ class Authentication:
             'cookie': {
                 'name': 'event_tracker_cookie',
                 'key': 'event_tracker_key_123',
-                'expiry_days': 30,
-                'same_site': 'strict'
+                'expiry_days': 30
             },
             'preauthorized': {
                 'emails': []
@@ -161,7 +160,7 @@ class Authentication:
         
         if config:
             try:
-                # Try newer streamlit-authenticator API with additional parameters
+                # Try newer streamlit-authenticator API
                 authenticator = stauth.Authenticate(
                     config['credentials'],
                     config['cookie']['name'],
@@ -169,16 +168,7 @@ class Authentication:
                     config['cookie']['expiry_days'],
                     preauthorized=None
                 )
-                
-                # Force cookie configuration for Streamlit Cloud
-                if hasattr(authenticator, 'cookie_manager'):
-                    authenticator.cookie_manager.set_config(
-                        name=config['cookie']['name'],
-                        key=config['cookie']['key'],
-                        expiry_days=config['cookie']['expiry_days']
-                    )
-                    
-            except (TypeError, AttributeError):
+            except TypeError:
                 # Fallback to older API
                 authenticator = stauth.Authenticate(
                     config['credentials'],
@@ -257,3 +247,26 @@ class Authentication:
         """Get the assigned game number for a game operator"""
         user_info = self.get_user_info(username)
         return user_info.get('assigned_game')
+    
+    def recreate_game_operators(self):
+        """Recreate game operator accounts with fresh passwords"""
+        users = self.load_users()
+        
+        # Create game operator password
+        game_password = "game123"
+        game_hashed = bcrypt.hashpw(game_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
+        # Add/update game operators
+        for i in range(1, 6):
+            username = f"game{i}_op"
+            users[username] = {
+                "name": f"Game {i} Operator",
+                "emp_id": f"GAME00{i}",
+                "email": f"game{i}@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": i
+            }
+        
+        return self.save_users(users)
