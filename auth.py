@@ -39,19 +39,67 @@ class Authentication:
             yaml.dump(config, file, default_flow_style=False)
     
     def create_default_users(self):
-        """Create default users file with admin user"""
+        """Create default users file with admin user and game operators"""
         # Create default admin user
         admin_password = "admin123"
-        hashed_password = bcrypt.hashpw(admin_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        admin_hashed = bcrypt.hashpw(admin_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
+        # Create game operator password
+        game_password = "game123"
+        game_hashed = bcrypt.hashpw(game_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         
         users = {
             "admin": {
                 "name": "Administrator",
                 "emp_id": "ADMIN001",
                 "email": "admin@company.com",
-                "department": "IT",
-                "password": hashed_password,
+                "password": admin_hashed,
                 "is_admin": True
+            },
+            "game1_op": {
+                "name": "Game 1 Operator",
+                "emp_id": "GAME001",
+                "email": "game1@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": 1
+            },
+            "game2_op": {
+                "name": "Game 2 Operator",
+                "emp_id": "GAME002",
+                "email": "game2@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": 2
+            },
+            "game3_op": {
+                "name": "Game 3 Operator",
+                "emp_id": "GAME003",
+                "email": "game3@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": 3
+            },
+            "game4_op": {
+                "name": "Game 4 Operator",
+                "emp_id": "GAME004",
+                "email": "game4@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": 4
+            },
+            "game5_op": {
+                "name": "Game 5 Operator",
+                "emp_id": "GAME005",
+                "email": "game5@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": 5
             }
         }
         
@@ -199,3 +247,26 @@ class Authentication:
         """Get the assigned game number for a game operator"""
         user_info = self.get_user_info(username)
         return user_info.get('assigned_game')
+    
+    def recreate_game_operators(self):
+        """Recreate game operator accounts with fresh passwords"""
+        users = self.load_users()
+        
+        # Create game operator password
+        game_password = "game123"
+        game_hashed = bcrypt.hashpw(game_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
+        # Add/update game operators
+        for i in range(1, 6):
+            username = f"game{i}_op"
+            users[username] = {
+                "name": f"Game {i} Operator",
+                "emp_id": f"GAME00{i}",
+                "email": f"game{i}@company.com",
+                "password": game_hashed,
+                "is_admin": False,
+                "role": "game_operator",
+                "assigned_game": i
+            }
+        
+        return self.save_users(users)

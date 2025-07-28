@@ -1,0 +1,54 @@
+{
+  "admin": {
+    "name": "Administrator",
+    "emp_id": "ADMIN001",
+    "email": "admin@company.com",
+    "password": "$2b$12$q9XFydb2t6HeFc4UEJiHMOD6T57U1R.t7J.8WptlT0XGiFPVyUk0u",
+    "is_admin": true
+  },
+  "game1_op": {
+    "name": "Game 1 Operator",
+    "emp_id": "GAME001",
+    "email": "game1@company.com",
+    "password": "$2b$12$vlMLjtq/9MaazZhB43Z02OO1H2sm0ZFFQpaEUIOTHtIx9S33i0fsa",
+    "is_admin": false,
+    "role": "game_operator",
+    "assigned_game": 1
+  },
+  "game2_op": {
+    "name": "Game 2 Operator",
+    "emp_id": "GAME002",
+    "email": "game2@company.com",
+    "password": "$2b$12$vlMLjtq/9MaazZhB43Z02OO1H2sm0ZFFQpaEUIOTHtIx9S33i0fsa",
+    "is_admin": false,
+    "role": "game_operator",
+    "assigned_game": 2
+  },
+  "game3_op": {
+    "name": "Game 3 Operator",
+    "emp_id": "GAME003",
+    "email": "game3@company.com",
+    "password": "$2b$12$vlMLjtq/9MaazZhB43Z02OO1H2sm0ZFFQpaEUIOTHtIx9S33i0fsa",
+    "is_admin": false,
+    "role": "game_operator",
+    "assigned_game": 3
+  },
+  "game4_op": {
+    "name": "Game 4 Operator",
+    "emp_id": "GAME004",
+    "email": "game4@company.com",
+    "password": "$2b$12$vlMLjtq/9MaazZhB43Z02OO1H2sm0ZFFQpaEUIOTHtIx9S33i0fsa",
+    "is_admin": false,
+    "role": "game_operator",
+    "assigned_game": 4
+  },
+  "game5_op": {
+    "name": "Game 5 Operator",
+    "emp_id": "GAME005",
+    "email": "game5@company.com",
+    "password": "$2b$12$vlMLjtq/9MaazZhB43Z02OO1H2sm0ZFFQpaEUIOTHtIx9S33i0fsa",
+    "is_admin": false,
+    "role": "game_operator",
+    "assigned_game": 5
+  }
+}
