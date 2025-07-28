@@ -28,7 +28,8 @@ class Authentication:
             'cookie': {
                 'name': 'event_tracker_cookie',
                 'key': 'event_tracker_key_123',
-                'expiry_days': 30
+                'expiry_days': 30,
+                'same_site': 'strict'
             },
             'preauthorized': {
                 'emails': []
@@ -160,7 +161,7 @@ class Authentication:
         
         if config:
             try:
-                # Try newer streamlit-authenticator API
+                # Try newer streamlit-authenticator API with additional parameters
                 authenticator = stauth.Authenticate(
                     config['credentials'],
                     config['cookie']['name'],
@@ -168,7 +169,16 @@ class Authentication:
                     config['cookie']['expiry_days'],
                     preauthorized=None
                 )
-            except TypeError:
+                
+                # Force cookie configuration for Streamlit Cloud
+                if hasattr(authenticator, 'cookie_manager'):
+                    authenticator.cookie_manager.set_config(
+                        name=config['cookie']['name'],
+                        key=config['cookie']['key'],
+                        expiry_days=config['cookie']['expiry_days']
+                    )
+                    
+            except (TypeError, AttributeError):
                 # Fallback to older API
                 authenticator = stauth.Authenticate(
                     config['credentials'],
