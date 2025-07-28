@@ -212,22 +212,7 @@ st.markdown("""
     }
     
     /* Hide bottom elements more aggressively */
-    .stApp > div:last-child {
-        display: none !important;
-    }
-    
-    /* Hide any element containing streamlit text */
-    *[class*="streamlit"], *[class*="Streamlit"] {
-        display: none !important;
-    }
-    
-    /* Hide elements with specific text content */
-    div:contains("Hosted with Streamlit") {
-        display: none !important;
-    }
-    
-    /* Hide bottom decoration elements */
-    .decoration {
+    .stApp > div:last-child:has(a[href*="streamlit"]) {
         display: none !important;
     }
     
@@ -251,47 +236,31 @@ st.markdown("""
     }
     
     /* Hide specific footer containers */
-    .stApp > div > div:last-child {
+    .stApp > div > div:last-child:has(a[href*="streamlit"]) {
         display: none !important;
     }
     
     /* Hide any small links at bottom */
-    .stApp a[target="_blank"] {
+    .stApp a[target="_blank"][href*="streamlit"] {
         display: none !important;
     }
-    
-    /* Hide elements by position (common footer locations) */
-    .stApp > div:nth-last-child(-n+2) {
+    .stApp a[target="_blank"][href*="github"] {
         display: none !important;
     }
     
     /* Additional footer hiding attempts */
-    div[style*="text-align: center"] {
+    div[style*="text-align: center"]:has(a[href*="streamlit"]) {
         display: none !important;
     }
-    div[style*="font-size: 12px"] {
+    div[style*="font-size: 12px"]:has(a[href*="streamlit"]) {
         display: none !important;
     }
-    div[style*="font-size: 0.75rem"] {
+    div[style*="font-size: 0.75rem"]:has(a[href*="streamlit"]) {
         display: none !important;
     }
     
     /* Hide any element with small text that might be branding */
-    div[style*="opacity: 0.6"] {
-        display: none !important;
-    }
-    
-    /* Aggressive hiding of potential badge containers */
-    div > div > a[href*="streamlit"] {
-        display: none !important;
-        visibility: hidden !important;
-    }
-    
-    /* Hide parent containers of badges */
-    div:has(a[href*="streamlit"]) {
-        display: none !important;
-    }
-    div:has(a[href*="github"]) {
+    div[style*="opacity: 0.6"]:has(a[href*="streamlit"]) {
         display: none !important;
     }
 </style>
@@ -461,6 +430,11 @@ def main():
     # Authentication
     authenticator = auth.get_authenticator()
     
+    # Check if authenticator was created successfully
+    if authenticator is None:
+        st.error("Authentication system failed to initialize. Please check configuration files.")
+        st.stop()
+    
     # Login/Logout
     if st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
@@ -472,8 +446,12 @@ def main():
         
         with col1:
             st.subheader("🔐 Login")
-            authenticator.login(location='main')
-            
+            try:
+                authenticator.login(location='main')
+            except Exception as e:
+                st.error(f"Login error: {str(e)}")
+                st.error("Please check if all required files exist.")
+                
         with col2:
             st.subheader("📝 New User Registration")
             with st.form("registration_form"):
@@ -512,7 +490,15 @@ def main():
         is_game_operator = auth.is_game_operator(st.session_state["username"])
         
         # Logout button
-        authenticator.logout(location='sidebar')
+        try:
+            authenticator.logout(location='sidebar')
+        except Exception as e:
+            st.sidebar.error(f"Logout error: {str(e)}")
+            if st.sidebar.button("Force Logout"):
+                st.session_state['authentication_status'] = None
+                st.session_state['name'] = None
+                st.session_state['username'] = None
+                st.rerun()
         
         # Navigation based on role
         if st.session_state['is_admin']:
