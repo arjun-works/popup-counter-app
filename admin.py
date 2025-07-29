@@ -230,15 +230,19 @@ class AdminPanel:
                 st.metric("Scored Participants", stats['total_scored'])
                 st.metric("Pending Scores", stats['total_participants'] - stats['total_scored'])
                 
-                # Department distribution
-                dept_counts = participants_df['department'].value_counts()
-                fig_dept = px.pie(
-                    values=dept_counts.values,
-                    names=dept_counts.index,
-                    title="Department Distribution",
-                    height=300
-                )
-                st.plotly_chart(fig_dept, use_container_width=True)
+                # Participation summary chart
+                if not participants_df.empty:
+                    participation_data = {
+                        'Category': ['Scored', 'Pending'],
+                        'Count': [stats['total_scored'], stats['total_participants'] - stats['total_scored']]
+                    }
+                    fig_participation = px.pie(
+                        values=participation_data['Count'],
+                        names=participation_data['Category'],
+                        title="Participation Status",
+                        height=300
+                    )
+                    st.plotly_chart(fig_participation, use_container_width=True)
                 
                 # Export options
                 st.write("#### 📤 Export Data")
@@ -301,22 +305,23 @@ class AdminPanel:
                 st.plotly_chart(fig_games, use_container_width=True)
             
             with col2:
-                # Department performance
-                if not participants_df.empty:
-                    dept_scores = scores_df.merge(
-                        participants_df[['emp_id', 'department']], 
-                        on='emp_id', 
-                        how='left'
-                    )
-                    dept_avg = dept_scores.groupby('department')['total'].mean().sort_values(ascending=False)
+                # Game participation distribution
+                if not scores_df.empty:
+                    # Count participants per game
+                    game_participation = {}
+                    for game in ['game1', 'game2', 'game3', 'game4', 'game5', 'game6']:
+                        if game in scores_df.columns:
+                            participated = len(scores_df[scores_df[game] > 0])
+                            game_participation[game.title()] = participated
                     
-                    fig_dept = px.bar(
-                        x=dept_avg.index,
-                        y=dept_avg.values,
-                        title="Average Score by Department",
-                        labels={'x': 'Department', 'y': 'Average Score'}
-                    )
-                    st.plotly_chart(fig_dept, use_container_width=True)
+                    if game_participation:
+                        fig_games = px.bar(
+                            x=list(game_participation.keys()),
+                            y=list(game_participation.values()),
+                            title="Game Participation Count",
+                            labels={'x': 'Games', 'y': 'Participants'}
+                        )
+                        st.plotly_chart(fig_games, use_container_width=True)
                 
                 # Gift type distribution over time
                 gift_counts = scores_df['gift_type'].value_counts()
