@@ -180,7 +180,7 @@ def main():
     # Initialize components
     auth = Authentication()
     db = Database()
-    admin_panel = AdminPanel(db)
+    admin_panel = AdminPanel(database=db, auth_system=auth)  # FIXED CONSTRUCTOR
     user_dashboard = UserDashboard(db)
     email_service = EmailService()
     game_logger = GameScoringLogger()
