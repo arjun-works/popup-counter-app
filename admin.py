@@ -124,6 +124,14 @@ class AdminPanel:
         
         participants_df = self.db.get_all_participants()
         
+        # Debug information
+        st.write("**Debug Info:**")
+        st.write(f"DataFrame shape: {participants_df.shape}")
+        st.write(f"DataFrame columns: {list(participants_df.columns)}")
+        if not participants_df.empty:
+            st.write("First few rows:")
+            st.write(participants_df.head())
+        
         if not participants_df.empty:
             col1, col2 = st.columns([3, 1])
             
@@ -134,23 +142,34 @@ class AdminPanel:
                 # Add search functionality
                 search_term = st.text_input("🔍 Search participants", placeholder="Search by name, emp_id, or department")
                 
-                if search_term:
-                    mask = (
-                        participants_df['name'].str.contains(search_term, case=False, na=False) |
-                        participants_df['emp_id'].str.contains(search_term, case=False, na=False) |
-                        participants_df['department'].str.contains(search_term, case=False, na=False)
-                    )
+                if search_term and not participants_df.empty:
+                    # Safe search with column existence check
+                    mask = pd.Series([False] * len(participants_df))
+                    if 'name' in participants_df.columns:
+                        mask |= participants_df['name'].str.contains(search_term, case=False, na=False)
+                    if 'emp_id' in participants_df.columns:
+                        mask |= participants_df['emp_id'].str.contains(search_term, case=False, na=False)  
+                    if 'department' in participants_df.columns:
+                        mask |= participants_df['department'].str.contains(search_term, case=False, na=False)
                     filtered_df = participants_df[mask]
                 else:
                     filtered_df = participants_df
                 
                 # Display table with selection
                 if not filtered_df.empty:
-                    st.dataframe(
-                        filtered_df[['emp_id', 'name', 'email', 'department', 'registration_date']],
-                        use_container_width=True,
-                        height=400
-                    )
+                    # Ensure all required columns exist
+                    required_columns = ['emp_id', 'name', 'email', 'department', 'registration_date']
+                    available_columns = [col for col in required_columns if col in filtered_df.columns]
+                    
+                    if available_columns:
+                        st.dataframe(
+                            filtered_df[available_columns],
+                            use_container_width=True,
+                            height=400
+                        )
+                    else:
+                        st.error("No valid columns found in participant data!")
+                        st.write("Available columns:", list(filtered_df.columns))
                     
                     # Bulk operations
                     st.write("#### Bulk Operations")
