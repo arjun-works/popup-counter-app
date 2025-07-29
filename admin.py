@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime
+from io import BytesIO
 from game_config import GameConfigManager, GameOperatorManager
 
 class AdminPanel:
@@ -140,25 +141,23 @@ class AdminPanel:
                 st.write("#### Registered Participants")
                 
                 # Add search functionality
-                search_term = st.text_input("🔍 Search participants", placeholder="Search by name, emp_id, or department")
+                search_term = st.text_input("🔍 Search participants", placeholder="Search by name or emp_id")
                 
                 if search_term and not participants_df.empty:
-                    # Safe search with column existence check
+                    # Safe search with column existence check (removed department)
                     mask = pd.Series([False] * len(participants_df))
                     if 'name' in participants_df.columns:
                         mask |= participants_df['name'].str.contains(search_term, case=False, na=False)
                     if 'emp_id' in participants_df.columns:
-                        mask |= participants_df['emp_id'].str.contains(search_term, case=False, na=False)  
-                    if 'department' in participants_df.columns:
-                        mask |= participants_df['department'].str.contains(search_term, case=False, na=False)
+                        mask |= participants_df['emp_id'].str.contains(search_term, case=False, na=False)
                     filtered_df = participants_df[mask]
                 else:
                     filtered_df = participants_df
                 
                 # Display table with selection
                 if not filtered_df.empty:
-                    # Ensure all required columns exist
-                    required_columns = ['emp_id', 'name', 'email', 'department', 'registration_date']
+                    # Ensure all required columns exist (removed department requirement)
+                    required_columns = ['emp_id', 'name', 'email', 'registration_date']
                     available_columns = [col for col in required_columns if col in filtered_df.columns]
                     
                     if available_columns:
@@ -167,6 +166,29 @@ class AdminPanel:
                             use_container_width=True,
                             height=400
                         )
+                        
+                        # Excel download feature
+                        if st.button("📥 Download as Excel", key="download_participants"):
+                            try:
+                                # Create Excel file in memory
+                                from io import BytesIO
+                                import pandas as pd
+                                
+                                output = BytesIO()
+                                with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                                    filtered_df[available_columns].to_excel(writer, sheet_name='Participants', index=False)
+                                
+                                output.seek(0)
+                                
+                                st.download_button(
+                                    label="💾 Download Excel File",
+                                    data=output.getvalue(),
+                                    file_name=f"participants_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                )
+                                st.success("Excel file ready for download!")
+                            except Exception as e:
+                                st.error(f"Error creating Excel file: {str(e)}")
                     else:
                         st.error("No valid columns found in participant data!")
                         st.write("Available columns:", list(filtered_df.columns))
